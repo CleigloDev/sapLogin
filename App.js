@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import WebView from 'react-native-webview';
 import base64 from 'react-native-base64';
 import RNSimpleCrypto from "react-native-simple-crypto";
+import { sha256 } from 'react-native-sha256';
 const base64js = require('base64-js');
 
 
@@ -55,9 +56,16 @@ const verifier = base64URLEncode(keyArrayBuffer);
 
 console.log(keyArrayBuffer);
 console.log("verifier:" + verifier);
-const sha256Hash = RNSimpleCrypto.SHA.sha256("test");
-const challange = base64URLEncode(sha256Hash);
-console.log("challange:" + challange);
+sha256(verifier).then(hash => {
+  console.log("has256"+hash);
+  const challenge = base64.encode(hash)
+  .replace(/\+/g, '-')
+  .replace(/\//g, '_')
+  .replace(/=/g, '');
+  console.log("challenge:" + challenge);
+})
+//const challange = base64URLEncode(sha256Hash);
+//console.log("challange:" + challange);
 });
 const params = parseURLParams(url);
 let headers = new Headers();
