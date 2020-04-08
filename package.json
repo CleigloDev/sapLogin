@@ -12,7 +12,9 @@
   "dependencies": {
     "events": "^3.1.0",
     "react": "16.11.0",
-    "react-native": "0.62.1"
+    "react-native": "0.62.1",
+    "react-native-base64": "0.0.2",
+    "react-native-webview": "^9.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

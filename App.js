@@ -1,106 +1,57 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {View, Text} from 'react-native';
+import WebView from 'react-native-webview';
+import base64 from 'react-native-base64';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const MainLogic = () => {
 
-const App = () => {
+  parseURLParams = (sUrl) => {
+    var url = sUrl;
+
+    var regex = /[?&]([^=#]+)=([^&#]*)/g,
+      params = {},
+      match;
+    while (match = regex.exec(url)) {
+      params[match[1]] = match[2];
+    }
+
+    return params;
+  }
+
+  _test = (oEvent) => {
+    const url = oEvent.url;
+
+// parseURLParams is a pseudo function.
+// Make sure to write your own function or install a package
+const params = parseURLParams(url);
+let headers = new Headers();
+headers.set('Authorization', 'Basic ' + base64.encode("sb-com-saplogin-dev!t34623" + ":" + "1cGpdkNZytfJSde0oSiSOgzG9lM="));
+console.log("headers"+ headers);
+
+if (params.code) {
+  // Save token for native requests & move to the next screen
+  console.log(params.code);
+
+  fetch("https://p2000953797trial.authentication.eu10.hana.ondemand.com/oauth/token?"+
+    "grant_type=authorization_code&code="+params.code+"&redirect_uri=https://p2000953797trial-dev-com-saplogin.cfapps.eu10.hana.ondemand.com", {method:'GET',
+    headers: headers,
+    //credentials: 'user:passwd'
+   })
+    .then(res => {console.log(res); return res.json()})
+    .then(response => console.log(response))
+    .catch(err => {
+      alert(err);
+    });
+}
+}
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <View style={{flex: 1}}>
+      <WebView 
+       onNavigationStateChange={_test}
+       source={{uri: 'https://p2000953797trial.authentication.eu10.hana.ondemand.com/oauth/authorize?response_type=code&client_id=sb-com-saplogin-dev!t34623&redirect_uri=https://p2000953797trial-dev-com-saplogin.cfapps.eu10.hana.ondemand.com'}}/>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
-export default App;
+export default MainLogic;
