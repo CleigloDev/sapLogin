@@ -2,6 +2,9 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import WebView from 'react-native-webview';
 import base64 from 'react-native-base64';
+import RNSimpleCrypto from "react-native-simple-crypto";
+const base64js = require('base64-js');
+
 
 const MainLogic = () => {
 
@@ -18,11 +21,44 @@ const MainLogic = () => {
     return params;
   }
 
-  _test = (oEvent) => {
+  base64URLEncode = (data) => {
+    if (data instanceof ArrayBuffer) {
+      data = new Uint8Array(data);
+    }
+    if (data instanceof Uint8Array) {
+      const str = base64js.fromByteArray(data);
+      return str
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+    }
+    if (!ArrayBuffer.isView(data)) {
+      throw new Error('data must be ArrayBuffer or typed array');
+    }
+    const {buffer, byteOffset, byteLength} = data;
+    const str = base64js.fromByteArray(new Uint8Array(buffer, byteOffset, byteLength));
+    return str
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+  }
+
+  _test = async(oEvent) => {
     const url = oEvent.url;
 
 // parseURLParams is a pseudo function.
 // Make sure to write your own function or install a package
+RNSimpleCrypto.utils.randomBytes(32)
+.then(async(keyArrayBuffer) => {
+
+const verifier = base64URLEncode(keyArrayBuffer);
+
+console.log(keyArrayBuffer);
+console.log("verifier:" + verifier);
+const sha256Hash = RNSimpleCrypto.SHA.sha256("test");
+const challange = base64URLEncode(sha256Hash);
+console.log("challange:" + challange);
+});
 const params = parseURLParams(url);
 let headers = new Headers();
 headers.set('Authorization', 'Basic ' + base64.encode("sb-com-saplogin-dev!t34623" + ":" + "1cGpdkNZytfJSde0oSiSOgzG9lM="));
