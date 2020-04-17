@@ -8,7 +8,7 @@ const base64js = require('base64-js');
 import CookieManager from '@react-native-community/cookies';
 
 
-const oAuthParams = { // neo params for token
+const oAuthParamsNEO = { // neo params for token
   client_id: "905fd317-7397-420f-a7c5-e26aff8dc5b8",
   app_id: "com.loginsap",
   mobileServiceHost_uri: "https://hcpms-p2000953797trial.hanatrial.ondemand.com",
@@ -20,7 +20,7 @@ const oAuthParams = { // neo params for token
   logout_method: "POST"
 };
 
-const oAuthParamsCF = { // cf params for token
+const oAuthParams = { // cf params for token
   client_id: "371b34f5-a548-4083-aad0-bbfdb9f9236b",
   app_id: "com.saplogin",
   mobileServiceHost_uri: "https://p2000953797trial-dev-com-saplogin.cfapps.eu10.hana.ondemand.com",
@@ -333,6 +333,7 @@ const MainLogic = () => {
 
           //show login page
           _requestLogin();
+          requestPending = false;
         })
         .catch(() => {
           console.log("Error during logout");
