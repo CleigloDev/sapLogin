@@ -8,7 +8,7 @@ const base64js = require('base64-js');
 import CookieManager from '@react-native-community/cookies';
 
 
-const oAuthParamsNEO = { // neo params for token
+const oAuthParams = { // neo params for token
   client_id: "905fd317-7397-420f-a7c5-e26aff8dc5b8",
   app_id: "com.loginsap",
   mobileServiceHost_uri: "https://hcpms-p2000953797trial.hanatrial.ondemand.com",
@@ -20,7 +20,7 @@ const oAuthParamsNEO = { // neo params for token
   logout_method: "POST"
 };
 
-const oAuthParams = { // cf params for token
+const oAuthParamsCF = { // cf params for token
   client_id: "371b34f5-a548-4083-aad0-bbfdb9f9236b",
   app_id: "com.saplogin",
   mobileServiceHost_uri: "https://p2000953797trial-dev-com-saplogin.cfapps.eu10.hana.ondemand.com",
@@ -165,7 +165,7 @@ const MainLogic = () => {
       fetch(accessTokenUri, { method: 'Post', headers: headers })
       .then(res => res.json())
       .then(response => {
-        console.log(response);
+        //console.log(response);
         setAuthInfo(response);
         _saveSessionInfo(response);
         //console.log(response);
@@ -201,7 +201,7 @@ const MainLogic = () => {
       if(oAuthInfo !== null) {
         oAuthInfo = JSON.parse(oAuthInfo);
         setAuthInfo(oAuthInfo);
-        console.log(oAuthInfo);
+        //console.log(oAuthInfo);
         return oAuthInfo;
       }
     }catch(err){
@@ -263,10 +263,10 @@ const MainLogic = () => {
       const DeviceType = Platform.OS === "android" ? "Android" : "iPhone";
       headers.set('Content-type', 'application/json');
       headers.set('Authorization', 'Bearer ' + authInfo.access_token);
-      const bodyNeoXml = '<?xml version="1.0" encoding="UTF-8"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><content type="application/xml"><m:properties><d:DeviceType>'+DeviceType+'</d:DeviceType></m:properties></content></entry>';
-      const bodyCFJSON = JSON.stringify({DeviceType});
+      //const bodyNeoXml = '<?xml version="1.0" encoding="UTF-8"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><content type="application/xml"><m:properties><d:DeviceType>'+DeviceType+'</d:DeviceType></m:properties></content></entry>';
+      const bodyJSON = JSON.stringify({DeviceType});
       fetch(oAuthParams.mobileServiceHost_uri+oAuthParams.deviceRegistration_path, {
-        method: "POST", headers: headers, body: bodyCFJSON,
+        method: "POST", headers: headers, body: bodyJSON,
         credentials: 'include'
       })
       .then(res => {
@@ -374,7 +374,7 @@ const MainLogic = () => {
       fetch(vebViewUri, {method: "DELETE", headers: headers})
       .then(res => res.text())
       .then(response => {
-        console.log(response);
+        //console.log(response);
         resolve();
       })
       .catch((err) => {
