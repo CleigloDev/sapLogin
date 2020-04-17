@@ -233,6 +233,8 @@ PODS:
     - React-cxxreact (= 0.62.1)
     - React-jsi (= 0.62.1)
   - React-jsinspector (0.62.1)
+  - react-native-cookies (2.0.8):
+    - React
   - react-native-simple-crypto (0.2.8):
     - React
   - react-native-webview (9.1.1):
@@ -324,6 +326,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-cookies (from `../node_modules/@react-native-community/cookies`)"
   - react-native-simple-crypto (from `../node_modules/react-native-simple-crypto`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -384,6 +387,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-cookies:
+    :path: "../node_modules/@react-native-community/cookies"
   react-native-simple-crypto:
     :path: "../node_modules/react-native-simple-crypto"
   react-native-webview:
@@ -439,6 +444,7 @@ SPEC CHECKSUMS:
   React-jsi: 600d8e42510c3254fd2abd702f4b9d3f598d8f52
   React-jsiexecutor: e9698dee4fd43ceb44832baf15d5745f455b0157
   React-jsinspector: f74a62727e5604119abd4a1eda52c0a12144bcd5
+  react-native-cookies: 4eb6243b344684bda432f661c28dab2c491ebb0c
   react-native-simple-crypto: 784a95ffa4d9addc5151b7039503f6438b77077b
   react-native-webview: 0633fd7861a9bd7a80bacaee7da763c3afc248fa
   React-RCTActionSheet: af8f28dd82fec89b8fe29637b8c779829e016a88
